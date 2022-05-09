@@ -1,0 +1,17 @@
+site_name: Aleff Documentation
+theme: readthedocs
+nav:
+  - "index.md"
+  - "Nomad Quickstart":
+      - "Deploy with Nomad": "nomad-quickstart/index.md"
+      - "Deploy as a Periodic Batch Job": "nomad-quickstart/batch.md"
+      - "Deploy as a Service Job": "nomad-quickstart/service.md"
+  - "Technical Architecture":
+      - "Overview": "technical-architecture/index.md"
+      - "Aleff Processor": "technical-architecture/aleff-processor.md"
+      - "Aleff Challenge Responder": "technical-architecture/aleff-challenge-responder.md"
+      - "Configuration": "technical-architecture/configuration.md"
+      - "Consul KeyValue Layout": "technical-architecture/consul-kv-layout.md"
+      - "Domain Verification Process": "technical-architecture/domain-verification-process.md"
+      - "Fabio Configuration": "technical-architecture/fabio-configuration.md"
+      - "Testing": "technical-architecture/testing.md"
