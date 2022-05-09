@@ -26,6 +26,6 @@ Default: `certs/challenges`
 
 Certificates that have been obtained from Let's Encrypt are stored here in such a way that Fabio can be configured to use this location as a certificate store.
 
-Each certificate will store two keys here: `&lt;domain&gt;-key.pem` and `&lt;domain&gt;-cert.pem`.
+Each certificate will store two keys here: `<domain>-key.pem` and `<domain>-cert.pem`.
 
 Default: `certs/active`
