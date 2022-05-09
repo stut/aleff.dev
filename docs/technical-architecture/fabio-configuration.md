@@ -5,6 +5,7 @@ To configure Fabio to use the certificates obtained by Aleff is simply a case of
 With the default Aleff configuration this line is all that's required to configure Fabio:
 
 ```txt
+proxy.addr = :80;proto=http,:443;cs=consul
 proxy.cs = cs=consul;type=consul;cert=http://127.0.0.1:8500/v1/kv/certs/active
 ```
 
