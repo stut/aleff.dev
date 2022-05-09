@@ -6,6 +6,8 @@ This architecture is common with <a href="https://www.nomadproject.io">Nomad</a>
 
 By detecting <code>urlprefix-</code> (configurable) tags on services registered with Consul and extracting the domain names, Aleff will request or renew SSL certificates as required. The certificates are then stored in Consul in the format required by Fabio's Consul-based certificate store.
 
+Note that Aleff currently only supports provisioning certificates for publicly-available domains; it does not support requesting certificates for internal services. This may be added as a feature in a future release.
+
 ## Features
 
 * Easy deployment using official docker images.
