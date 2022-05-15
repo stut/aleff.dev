@@ -3,5 +3,5 @@ COPY . .
 RUN pip install mkdocs
 RUN mkdocs build
 
-FROM stut/http-base
+FROM stut/statigo:latest
 COPY --from=mkdocsbuild site/ ./
