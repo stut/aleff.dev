@@ -2,6 +2,16 @@
 
 Aleff is configured through environment variables.
 
+## DEFAULT
+
+Set this to `disabled` to prevent aleff from obtaining certificates for all domains by default.
+
+Default: `enabled`
+
+When set to `enabled` you can disable aleff for a service by adding the tag `aleff-disabled`.
+
+When set to `disabled` you can enable aleff for a service by adding the tag `aleff-enabled`.
+
 ## EMAIL_ADDRESS
 
 Specify an email address at which you want to receive [expiration notifications](https://letsencrypt.org/docs/expiration-emails/) in case Aleff fails to renew a certificate. As of writing this documentation they do this 20 days before expiry giving you plenty of time to diagnose and fix the problem.
