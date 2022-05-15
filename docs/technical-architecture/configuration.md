@@ -46,6 +46,12 @@ This variable defines how long before expiry a certificate will be renewed. It h
 
 Default: `696h` (29 days)
 
+## DISABLE_CHALLENGE_RESPONDER_JOB
+
+Set this to any non-empty value to disable launching the challenge responder job as part of obtaining a certificate. Use this if you're permanently running the challenge responder.
+
+Default: `""` (empty string)
+
 ## CHALLENGE_RESPONDER_JOB_TIMEOUT
 
 Specifies how long aleff will wait for the challenge responder job to start responding correctly to the challenge request. Uses the same duration semantics as `RUN_INTERVAL`.
