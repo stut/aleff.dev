@@ -36,6 +36,12 @@ This variable defines how long before expiry a certificate will be renewed. It h
 
 Default: `696h` (29 days)
 
+## CHALLENGE_RESPONDER_JOB_TIMEOUT
+
+Specifies how long aleff will wait for the challenge responder job to start responding correctly to the challenge request. Uses the same duration semantics as `RUN_INTERVAL`.
+
+Default: `1m` (1 minute)
+
 ## TAG_PREFIX
 
 If you're using a non-standard prefix for Fabio routing tags, specify it here.
