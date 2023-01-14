@@ -1,0 +1,19 @@
+name: auto_tag_master
+on:
+  push:
+    branches:
+      - master
+      - main
+jobs:
+  tag_repo:
+    name: Get the current date and time and tag the repo with that
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get datetime
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+      - name: Tag and push
+        run: |
+          git tag "${{ steps.date.outputs.date }}"
+          git push origin "${{ steps.date.outputs.date }}"
