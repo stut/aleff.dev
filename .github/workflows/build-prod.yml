@@ -24,7 +24,9 @@ jobs:
       - run: pip install mkdocs
       - run: mkdocs build
       - run: mv site ..
-      - run: git checkout prod
+      - uses: actions/checkout@v3
+        with:
+          ref: 'prod'
       - run: mv .git ..
       - run: rm -rf .
       - run: mv ../site/* .
