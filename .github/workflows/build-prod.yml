@@ -27,6 +27,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: 'prod'
+      - run: git config --global user.email "github@stut.net"
+      - run: git config --global user.name "Github actions"
       - run: mv .git ../site/
       - run: cd ../site/ && git commit -am "Built by github action"
 
