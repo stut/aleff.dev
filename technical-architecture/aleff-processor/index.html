@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Aleff Processor - Aleff Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Aleff Processor";
+        var mkdocs_page_input_path = "technical-architecture/aleff-processor.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Aleff Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Welcome to Aleff</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Nomad Quickstart</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../nomad-quickstart/">Deploy with Nomad</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../nomad-quickstart/batch/">Deploy as a Periodic Batch Job</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../nomad-quickstart/service/">Deploy as a Service Job</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Technical Architecture</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Aleff Processor</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#use-the-internal-timer">Use the internal timer</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#use-an-external-timer">Use an external timer</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#access-requirements">Access requirements</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#consul">Consul</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#nomad">Nomad</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../aleff-challenge-responder/">Aleff Challenge Responder</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../consul-kv-layout/">Consul KeyValue Layout</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../domain-verification-process/">Domain Verification Process</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../fabio-configuration/">Fabio Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Aleff Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Technical Architecture &raquo;</li>
+      <li>Aleff Processor</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="aleff-processor">Aleff Processor</h1>
+<p>View the project on <a href="https://github.com/stut/aleff">GitHub</a> and <a href="https://hub.docker.com/r/stut/aleff">DockerHub</a>.</p>
+<ul>
+<li>Detects domains from <code>urlprefix-</code> (configurable) tags on services registered with Consul.</li>
+<li>For each one it will check to see if a certificate already exists.</li>
+<li>If not it will request a new one from Let's Encrypt.</li>
+<li>If it does it will check the expiry date and will renew if it's within the configured <code>RENEW_WITHIN</code> period.</li>
+</ul>
+<h2 id="use-the-internal-timer">Use the internal timer</h2>
+<ul>
+<li>The processor can be executed as a long-running service which checks for new and renewable domains based on an internal timer.</li>
+<li>Set the <code>RUN_INTERVAL</code> environment variable to a positive duration to enable this feature.</li>
+<li>The processor will run forever.</li>
+</ul>
+<h2 id="use-an-external-timer">Use an external timer</h2>
+<ul>
+<li>By default the <code>RUN_INTERVAL</code> environment variable is set to <code>0</code>.</li>
+<li>In this mode Aleff will run once and exit.</li>
+<li>Run this periodically using an external timer such as <code>crond</code>, <code>systemd</code>, or as a <code>periodic</code> Nomad batch job.</li>
+</ul>
+<h2 id="access-requirements">Access requirements</h2>
+<h3 id="consul">Consul</h3>
+<ul>
+<li>All data is stored in Consul.</li>
+<li>Aleff will need read/write access to <a href="../consul-kv-layout/">the keys in the configuration</a>.</li>
+<li>The Consul API URL and token (if required) should be provided in standard environment variables.</li>
+<li>We strongly recommend the token is provisioned using <a href="https://www.vaultproject.io">Vault</a>.</li>
+</ul>
+<h3 id="nomad">Nomad</h3>
+<ul>
+<li>Aleff requires the ability to launch the <code>aleff-challenge-responder</code> service.</li>
+<li>The Nomad API URL and token (if required) should be provided in the standard environment variables.</li>
+<li>We strongly recommend the token is provisioned using <a href="https://www.vaultproject.io">Vault</a>.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../aleff-challenge-responder/" class="btn btn-neutral float-right" title="Aleff Challenge Responder">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../aleff-challenge-responder/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

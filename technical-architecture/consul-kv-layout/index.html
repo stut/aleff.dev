@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Consul KeyValue Layout - Aleff Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Consul KeyValue Layout";
+        var mkdocs_page_input_path = "technical-architecture/consul-kv-layout.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Aleff Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Welcome to Aleff</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Nomad Quickstart</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../nomad-quickstart/">Deploy with Nomad</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../nomad-quickstart/batch/">Deploy as a Periodic Batch Job</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../nomad-quickstart/service/">Deploy as a Service Job</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Technical Architecture</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../aleff-processor/">Aleff Processor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../aleff-challenge-responder/">Aleff Challenge Responder</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuration</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Consul KeyValue Layout</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#challenge-tokens">Challenge tokens</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#certificates">Certificates</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../domain-verification-process/">Domain Verification Process</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../fabio-configuration/">Fabio Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Aleff Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Technical Architecture &raquo;</li>
+      <li>Consul KeyValue Layout</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="consul-keyvalue-layout">Consul KeyValue Layout</h1>
+<p>Aleff stores everything it needs in Consul. The location of each type of data is configurable through environment variables.</p>
+<p>Unless you are already using the <code>certs/</code> root key you can safely use the defaults.</p>
+<h2 id="configuration">Configuration</h2>
+<p><code>KV_CONFIG_ROOT</code></p>
+<p>The private key and user registration information for Let's Encrypt is stored here. The keys include the ACME directory URL and the email address allowing both to be modified without trampling on each other. It also allows multiple instances of Aleff to be run with different configurations using the same Consul instance.</p>
+<p>Default: <code>certs/config</code></p>
+<h2 id="challenge-tokens">Challenge tokens</h2>
+<p><code>KV_CHALLENGE_ROOT</code></p>
+<p>The domain verification process involves responding to an HTTP request from Let's Encrypt with a token. The token is temporarily stored in this location in Consul. The <code>aleff-challenge-responder</code> has a matching environment variable from which it will read the token to respond to the request when it comes in.</p>
+<p>Default: <code>certs/challenges</code></p>
+<h2 id="certificates">Certificates</h2>
+<p><code>KV_CERT_ROOT</code></p>
+<p>Certificates that have been obtained from Let's Encrypt are stored here in such a way that Fabio can be configured to use this location as a certificate store.</p>
+<p>Each certificate will store two keys here: <code>&lt;domain&gt;-key.pem</code> and <code>&lt;domain&gt;-cert.pem</code>.</p>
+<p>Default: <code>certs/active</code></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../configuration/" class="btn btn-neutral float-left" title="Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../domain-verification-process/" class="btn btn-neutral float-right" title="Domain Verification Process">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../configuration/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../domain-verification-process/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
