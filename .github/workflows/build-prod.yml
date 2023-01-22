@@ -28,6 +28,5 @@ jobs:
         with:
           ref: 'prod'
       - run: mv .git ../site/
-      - run: cd ../site/
-      - run: git commit -am "Built by github action"
+      - run: cd ../site/ && git commit -am "Built by github action"
 
