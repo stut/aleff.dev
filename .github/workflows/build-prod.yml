@@ -1,0 +1,33 @@
+name: Build mkdocs site and commit to prod branch
+
+on:
+  push:
+    branches:
+      - master 
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+      - uses: actions/cache@v2
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+      - run: pip install mkdocs
+      - run: mkdocs build
+      - run: mv site ..
+      - run: git checkout prod
+      - run: mv .git ..
+      - run: rm -rf .
+      - run: mv ../site/* .
+      - run: mv ../.git .
+      - run: git commit -am "Built by github action"
+
