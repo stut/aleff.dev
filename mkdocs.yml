@@ -1,5 +1,7 @@
 site_name: Aleff Documentation
-theme: readthedocs
+theme:
+  name: readthedocs
+  custom_dir: overrides
 nav:
   - "index.md"
   - "Nomad Quickstart":

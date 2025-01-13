@@ -1,4 +1,4 @@
-FROM python:3 as mkdocsbuild
+FROM python:3 AS mkdocsbuild
 COPY . .
 RUN pip install mkdocs
 RUN mkdocs build
