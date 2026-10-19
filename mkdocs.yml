@@ -1,4 +1,5 @@
 site_name: Aleff Documentation
+copyright: 'Visits are counted without cookies (<a href="https://3ft9.com/privacy/analytics">how</a>). <label style="white-space: nowrap"><input type="checkbox" id="v-opt-out"> Don&#39;t count mine</label>'
 theme:
   name: readthedocs
   custom_dir: overrides
